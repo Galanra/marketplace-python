@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>MarketplacePy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+<style>
+    /* ===== ANIMASI UMUM ===== */
+    .kartu {
+        animation: fadeInUp 0.5s ease both;
+    }
+
+    .kartu:nth-child(1) { animation-delay: 0.1s; }
+    .kartu:nth-child(2) { animation-delay: 0.2s; }
+    .kartu:nth-child(3) { animation-delay: 0.3s; }
+    .kartu:nth-child(4) { animation-delay: 0.4s; }
+    .kartu:nth-child(5) { animation-delay: 0.5s; }
+    .kartu:nth-child(6) { animation-delay: 0.6s; }
+
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== NAVBAR ANIMASI ===== */
+    nav a {
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    nav a::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: white;
+        transition: width 0.3s ease;
+    }
+
+    nav a:hover::after {
+        width: 100%;
+    }
+
+    /* ===== BANNER ANIMASI ===== */
+    .banner h1 {
+        animation: fadeInDown 0.8s ease both;
+    }
+
+    .banner p {
+        animation: fadeInDown 1s ease both;
+    }
+
+    .banner form {
+        animation: fadeInUp 1.2s ease both;
+    }
+
+    @keyframes fadeInDown {
+        from { opacity: 0; transform: translateY(-20px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== TOMBOL ANIMASI ===== */
+    .btn-keranjang, .btn-checkout, button {
+        transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+    }
+
+    .btn-keranjang:hover, .btn-checkout:hover, button:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 4px 12px rgba(238,77,45,0.4) !important;
+    }
+
+    /* ===== ALERT ANIMASI ===== */
+    .alert {
+        animation: slideInDown 0.5s ease both;
+    }
+
+    @keyframes slideInDown {
+        from { opacity: 0; transform: translateY(-20px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== FORM ANIMASI ===== */
+    .form-container {
+        animation: zoomIn 0.5s ease both;
+    }
+
+    @keyframes zoomIn {
+        from { opacity: 0; transform: scale(0.95); }
+        to   { opacity: 1; transform: scale(1); }
+    }
+
+    /* ===== PROFIL ANIMASI ===== */
+    .profil-header {
+        animation: fadeInLeft 0.6s ease both;
+    }
+
+    .profil-stats {
+        animation: fadeInLeft 0.8s ease both;
+    }
+
+    @keyframes fadeInLeft {
+        from { opacity: 0; transform: translateX(-20px); }
+        to   { opacity: 1; transform: translateX(0); }
+    }
+
+    /* ===== DETAIL PRODUK ANIMASI ===== */
+    .detail-wrapper {
+        animation: fadeIn 0.6s ease both;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+    }
+
+    /* ===== KATEGORI BTN ANIMASI ===== */
+    .kategori-btn {
+        transition: all 0.3s ease !important;
+    }
+
+    .kategori-btn:hover {
+        transform: translateY(-2px);
+    }
+
+    /* ===== SCROLL SMOOTH ===== */
+    html {
+        scroll-behavior: smooth;
+    }
+</style>
+</head>
+<body>
+    <nav>
+        <a href="/">🛒 MarketplacePy</a>
+            {% if current_user.is_authenticated %}
+            <a href="/jual">+ Jual Produk</a>
+            <a href="/keranjang">Keranjang</a>
+            <a href="/riwayat">Pesanan</a>
+            <a href="/pesanan-masuk">📥 Masuk</a>
+            <a href="/alamat">📍 Alamat</a>
+            <a href="/notifikasi" style="position:relative;">
+                🔔
+                {% if notif_count > 0 %}
+                <span class="notif-badge">{{ notif_count }}</span>
+                {% endif %}
+            </a>
+            {% if current_user.is_admin %}
+            <a href="/admin" style="background:#333; padding:6px 12px; border-radius:8px;">🛡️ Admin</a>
+            {% endif %}
+            <a href="/profil">👤 {{ current_user.nama }}</a>
+            <a href="/logout">Logout</a>
+        {% else %}
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
+        {% endif %}
+    </nav>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <div class="alert">{{ msg }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+    <script>
+// Tombol back otomatis muncul di semua halaman kecuali beranda
+window.onload = function() {
+    if (window.location.pathname !== '/') {
+        const btn = document.createElement('button');
+        btn.innerHTML = '← Kembali';
+        btn.onclick = () => history.back();
+        btn.style.cssText = `
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: #ee4d2d;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(238,77,45,0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        `;
+        btn.onmouseover = () => {
+            btn.style.transform = 'translateY(-3px)';
+            btn.style.boxShadow = '0 8px 20px rgba(238,77,45,0.5)';
+        };
+        btn.onmouseout = () => {
+            btn.style.transform = 'translateY(0)';
+            btn.style.boxShadow = '0 4px 12px rgba(238,77,45,0.4)';
+        };
+        document.body.appendChild(btn);
+    }
+}
+</script>
+</body>
+</html>

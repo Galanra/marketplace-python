@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h2>📥 Pesanan Masuk</h2>
+    {% for order in orders %}
+    <div class="keranjang-item" style="flex-direction:column; align-items:flex-start;">
+        <div style="display:flex; justify-content:space-between; width:100%; align-items:center; flex-wrap:wrap; gap:10px;">
+            <div>
+                <h3>Order #{{ order.id }} — {{ order.produk.nama }}</h3>
+                <div class="harga">Rp {{ "{:,}".format(order.total_harga) }}</div>
+                <div style="font-size:13px; color:#888;">{{ order.tanggal.strftime('%d %B %Y') }}</div>
+                <span class="status-badge status-{{ order.status|lower|replace(' ', '-') }}">
+                    {{ order.status }}
+                </span>
+            </div>
+            <form method="POST" action="/order/status/{{ order.id }}"
+                  style="display:flex; gap:8px; align-items:center;">
+                <select name="status" style="padding:8px; border-radius:8px; border:1px solid #ddd;">
+                    <option value="Menunggu Pembayaran" {% if order.status == 'Menunggu Pembayaran' %}selected{% endif %}>Menunggu Pembayaran</option>
+                    <option value="Menunggu Konfirmasi" {% if order.status == 'Menunggu Konfirmasi' %}selected{% endif %}>Menunggu Konfirmasi</option>
+                    <option value="Diproses" {% if order.status == 'Diproses' %}selected{% endif %}>Diproses</option>
+                    <option value="Dikirim" {% if order.status == 'Dikirim' %}selected{% endif %}>Dikirim</option>
+                    <option value="Selesai" {% if order.status == 'Selesai' %}selected{% endif %}>Selesai</option>
+                    <option value="Dibatalkan" {% if order.status == 'Dibatalkan' %}selected{% endif %}>Dibatalkan</option>
+                </select>
+                <button type="submit"
+                        style="padding:8px 16px; background:#ee4d2d; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600;">
+                    Update
+                </button>
+            </form>
+        </div>
+
+        <!-- Bukti Pembayaran -->
+        {% if order.bukti_bayar %}
+        <div style="margin-top:12px;">
+            <p style="font-size:13px; font-weight:600; margin-bottom:6px;">📎 Bukti Pembayaran:</p>
+            <img src="{{ url_for('static', filename='uploads/' + order.bukti_bayar) }}"
+                 style="width:150px; border-radius:8px; border:1px solid #ddd;">
+            {% if order.status == 'Menunggu Konfirmasi' %}
+            <div style="margin-top:8px;">
+                <a href="/order/konfirmasi/{{ order.id }}"
+                   style="display:inline-block; padding:8px 16px; background:#28a745; color:white; border-radius:8px; font-weight:600; font-size:13px;">
+                    ✅ Konfirmasi Pembayaran
+                </a>
+            </div>
+            {% endif %}
+        </div>
+        {% else %}
+        <p style="margin-top:8px; font-size:13px; color:#888;">⏳ Belum ada bukti pembayaran</p>
+        {% endif %}
+    </div>
+    {% endfor %}
+
+    {% if not orders %}
+    <p style="text-align:center; color:#888; margin-top:40px;">Belum ada pesanan masuk 📭</p>
+    {% endif %}
+</div>
+{% endblock %}

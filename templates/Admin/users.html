@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h2>👥 Kelola User</h2>
+    <p style="color:#888; margin-bottom:20px;">Total: {{ users|length }} user</p>
+    {% for u in users %}
+    <div class="keranjang-item">
+        <div class="info" style="width:100%;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h3>{{ u.nama }}
+                        {% if u.is_admin %}
+                        <span style="background:#ee4d2d; color:white; padding:2px 8px; border-radius:10px; font-size:11px;">ADMIN</span>
+                        {% endif %}
+                    </h3>
+                    <div style="font-size:13px; color:#888;">{{ u.email }}</div>
+                    {% if u.no_hp %}<div style="font-size:13px; color:#888;">📱 {{ u.no_hp }}</div>{% endif %}
+                </div>
+                {% if not u.is_admin %}
+                <a href="/admin/user/hapus/{{ u.id }}"
+                   class="btn-hapus"
+                   style="padding:6px 14px;"
+                   onclick="return confirm('Yakin hapus user ini?')">
+                    🗑️ Hapus
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

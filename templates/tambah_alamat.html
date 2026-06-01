@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="form-container">
+    <h2>📍 Tambah Alamat</h2>
+    <form method="POST">
+        <input type="text" name="nama_penerima" placeholder="Nama penerima" required>
+        <input type="text" name="no_hp" placeholder="Nomor HP penerima" required>
+        <textarea name="alamat_lengkap" placeholder="Alamat lengkap (jalan, RT/RW, kelurahan)" required></textarea>
+        <select name="kota" required>
+            <option value="">-- Pilih Kota --</option>
+            <option value="Jakarta">Jakarta</option>
+            <option value="Surabaya">Surabaya</option>
+            <option value="Bandung">Bandung</option>
+            <option value="Medan">Medan</option>
+            <option value="Semarang">Semarang</option>
+            <option value="Yogyakarta">Yogyakarta</option>
+            <option value="Makassar">Makassar</option>
+            <option value="Palembang">Palembang</option>
+            <option value="Balikpapan">Balikpapan</option>
+            <option value="Denpasar">Denpasar</option>
+        </select>
+        <input type="text" name="provinsi" placeholder="Provinsi" required>
+        <input type="text" name="kode_pos" placeholder="Kode pos" required>
+        <label style="display:flex; align-items:center; gap:8px; font-size:14px; margin-bottom:16px;">
+            <input type="checkbox" name="is_utama"> Jadikan alamat utama
+        </label>
+        <button type="submit">💾 Simpan Alamat</button>
+    </form>
+    <div class="link-bawah">
+        <a href="/alamat">← Kembali ke Alamat</a>
+    </div>
+</div>
+{% endblock %}

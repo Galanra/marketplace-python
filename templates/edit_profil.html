@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="form-container">
+    <h2>✏️ Edit Profil</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="text" name="nama" value="{{ current_user.nama }}" placeholder="Nama lengkap" required>
+        <input type="text" name="no_hp" value="{{ current_user.no_hp or '' }}" placeholder="Nomor HP">
+        <p style="font-size:13px; color:#888; margin-bottom:8px;">Foto Profil (kosongkan jika tidak ingin ganti)</p>
+        <input type="file" name="foto" accept="image/*">
+        <button type="submit">💾 Simpan Perubahan</button>
+    </form>
+    <div class="link-bawah">
+        <a href="/profil">← Kembali ke Profil</a>
+    </div>
+</div>
+{% endblock %}

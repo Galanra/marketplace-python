@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h2>🛒 Checkout</h2>
+    <form method="POST">
+        <!-- Pilih Alamat -->
+        <div style="background:white; padding:24px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.08); margin-bottom:20px;">
+            <h3 style="margin-bottom:16px; color:#ee4d2d;">📍 Pilih Alamat Pengiriman</h3>
+            {% for a in alamat_list %}
+            <label style="display:block; border:2px solid {% if a.id == alamat_utama.id %}#ee4d2d{% else %}#eee{% endif %}; border-radius:10px; padding:16px; margin-bottom:10px; cursor:pointer;">
+                <input type="radio" name="alamat_id" value="{{ a.id }}"
+                       {% if a.id == alamat_utama.id %}checked{% endif %}
+                       onchange="updateOngkir({{ a.id }}, '{{ a.kota }}')">
+                <strong>{{ a.nama_penerima }}</strong> — {{ a.no_hp }}
+                {% if a.is_utama %}<span style="background:#ee4d2d; color:white; padding:2px 8px; border-radius:10px; font-size:11px; margin-left:8px;">Utama</span>{% endif %}
+                <br>
+                <span style="color:#555; font-size:13px;">{{ a.alamat_lengkap }}, {{ a.kota }}, {{ a.provinsi }} {{ a.kode_pos }}</span>
+            </label>
+            {% endfor %}
+            <a href="/alamat/tambah" style="color:#ee4d2d; font-size:13px;">+ Tambah Alamat Baru</a>
+        </div>
+
+        <!-- Ringkasan Belanja -->
+        <div style="background:white; padding:24px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.08); margin-bottom:20px;">
+            <h3 style="margin-bottom:16px; color:#ee4d2d;">🧾 Ringkasan Pesanan</h3>
+            {% for item in items %}
+            {% set p = item.produk_id %}
+            <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:14px;">
+                <span>Produk #{{ item.produk_id }} × {{ item.jumlah }}</span>
+            </div>
+            {% endfor %}
+            <hr style="margin:12px 0;">
+            <div style="display:flex; justify-content:space-between; font-size:14px; margin-bottom:6px;">
+                <span>Total Belanja</span>
+                <span>Rp {{ "{:,}".format(total_belanja) }}</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:14px; margin-bottom:6px;">
+                <span>Ongkos Kirim</span>
+                <span id="ongkir-display">Rp {{ "{:,}".format(ongkir_preview) }}</span>
+            </div>
+            <hr style="margin:12px 0;">
+            <div style="display:flex; justify-content:space-between; font-size:16px; font-weight:700; color:#ee4d2d;">
+                <span>Total Bayar</span>
+                <span id="total-display">Rp {{ "{:,}".format(total_belanja + ongkir_preview) }}</span>
+            </div>
+        </div>
+
+        <button type="submit" style="width:100%; padding:14px; background:#ee4d2d; color:white; border:none; border-radius:8px; font-size:16px; font-weight:700; cursor:pointer;">
+            ✅ Buat Pesanan
+        </button>
+    </form>
+</div>
+
+<script>
+const ongkirData = {
+    'Jakarta': 10000,
+    'Surabaya': 15000,
+    'Bandung': 12000,
+    'Medan': 25000,
+    'Semarang': 13000,
+    'Yogyakarta': 13000,
+    'Makassar': 30000,
+    'Palembang': 20000,
+    'Balikpapan': 35000,
+    'Denpasar': 20000,
+};
+const totalBelanja = {{ total_belanja }};
+
+function updateOngkir(alamatId, kota) {
+    const ongkir = ongkirData[kota] || 20000;
+    const total = totalBelanja + ongkir;
+    document.getElementById('ongkir-display').innerText = 'Rp ' + ongkir.toLocaleString('id-ID');
+    document.getElementById('total-display').innerText = 'Rp ' + total.toLocaleString('id-ID');
+}
+</script>
+{% endblock %}

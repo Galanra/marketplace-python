@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h2>📦 Kelola Produk</h2>
+    <p style="color:#888; margin-bottom:20px;">Total: {{ produk|length }} produk</p>
+    <div class="produk-grid">
+        {% for p in produk %}
+        <div class="kartu">
+            <img src="{{ url_for('static', filename='uploads/' + p.foto) }}" alt="{{ p.nama }}">
+            <div class="kartu-info">
+                <h3>{{ p.nama }}</h3>
+                <div class="harga">Rp {{ "{:,}".format(p.harga) }}</div>
+                <div class="stok">Stok: {{ p.stok }}</div>
+                <div style="font-size:12px; color:#888; margin-bottom:8px;">
+                    Penjual: {{ p.penjual.nama }}
+                </div>
+                <a href="/admin/produk/hapus/{{ p.id }}"
+                   class="btn-hapus"
+                   style="display:block; text-align:center; padding:6px;"
+                   onclick="return confirm('Yakin hapus produk ini?')">
+                    🗑️ Hapus
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

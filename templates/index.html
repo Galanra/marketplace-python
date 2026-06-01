@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="banner">
+    <h1>🛒 Selamat Datang di MarketplacePy</h1>
+    <p>Temukan produk terbaik dengan harga terjangkau</p>
+    <form action="/search" method="GET" style="margin-top:20px;">
+        <input type="text" name="q" placeholder="🔍 Cari produk..." style="padding:10px 20px; width:300px; border-radius:20px; border:none; font-size:14px;">
+        <button type="submit" style="padding:10px 20px; background:#d43f20; color:white; border:none; border-radius:20px; cursor:pointer; font-weight:bold;">Cari</button>
+    </form>
+</div>
+<div class="kategori-bar">
+    <a href="/" class="kategori-btn {% if not kategori_aktif %}aktif{% endif %}">Semua</a>
+    {% for k in kategori_list %}
+    <a href="/?kategori={{ k }}" class="kategori-btn {% if kategori_aktif == k %}aktif{% endif %}">{{ k }}</a>
+    {% endfor %}
+</div>
+<div class="container">
+    <h2>{% if kategori_aktif %}{{ kategori_aktif }}{% else %}Semua Produk{% endif %}</h2>
+    <div class="produk-grid">
+        {% for p in produk %}
+        <a href="/produk/{{ p.id }}" style="text-decoration:none; color:inherit;">
+            <div class="kartu">
+                <img src="{{ url_for('static', filename='uploads/' + p.foto) }}" alt="{{ p.nama }}">
+                {% if p.stok == 0 %}
+                <div style="background:rgba(0,0,0,0.5); color:white; text-align:center; padding:6px; font-weight:700; font-size:13px;">❌ Stok Habis</div>
+                {% endif %}
+                <div class="kartu-info">
+                    <span class="badge-kategori">{{ p.kategori }}</span>
+                    <h3>{{ p.nama }}</h3>
+                    <div class="harga">Rp {{ "{:,}".format(p.harga) }}</div>
+                    <div class="stok" style="color: {% if p.stok == 0 %}red{% elif p.stok <= 5 %}orange{% else %}#888{% endif %};">
+                        {% if p.stok == 0 %}Stok Habis!
+                        {% elif p.stok <= 5 %}Sisa {{ p.stok }} lagi!
+                        {% else %}Stok: {{ p.stok }}
+                        {% endif %}
+                    </div>
+                    {% if p.stok > 0 %}
+                    <span class="btn-keranjang">Lihat Produk</span>
+                    {% else %}
+                    <span class="btn-keranjang" style="background:#ccc; cursor:not-allowed;">Stok Habis</span>
+                    {% endif %}
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+    {% if not produk %}
+    <p style="text-align:center; color:#888; margin-top:40px;">Tidak ada produk ditemukan 😢</p>
+    {% endif %}
+</div>
+{% endblock %}

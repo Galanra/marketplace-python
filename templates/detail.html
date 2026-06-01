@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="detail-wrapper">
+        <div class="detail-foto">
+            <img src="{{ url_for('static', filename='uploads/' + produk.foto) }}" alt="{{ produk.nama }}">
+        </div>
+        <div class="detail-info">
+            <span class="badge-kategori">{{ produk.kategori }}</span>
+            <h1>{{ produk.nama }}</h1>
+            <a href="/toko/{{ produk.user_id }}"
+            style="display:inline-flex; align-items:center; gap:6px; color:#ee4d2d; font-size:13px; font-weight:600; margin-bottom:12px;">
+                🏪 {{ produk.penjual.nama }} — Lihat Toko
+            </a>
+            <span class="badge-kategori">{{ produk.kategori }}</span>
+            <h1>{{ produk.nama }}</h1>
+            <div class="detail-harga">Rp {{ "{:,}".format(produk.harga) }}</div>
+            <div class="detail-stok">Stok tersedia: {{ produk.stok }}</div>
+            <div style="margin-bottom:12px;">
+                ⭐ {{ rata_bintang }}/5 ({{ ulasan|length }} ulasan)
+            </div>
+            <p class="detail-deskripsi">{{ produk.deskripsi }}</p>
+            <a href="/keranjang/tambah/{{ produk.id }}" class="btn-keranjang" style="display:inline-block; padding:12px 30px; font-size:16px;">
+                🛒 Tambah ke Keranjang
+            </a>
+        </div>
+    </div>
+
+    <!-- Ulasan -->
+    <div class="ulasan-section">
+        <h2>⭐ Ulasan Pembeli</h2>
+
+        {% if current_user.is_authenticated %}
+        <form method="POST" class="form-ulasan">
+            <label>Bintang:</label>
+            <select name="bintang" required>
+                <option value="5">⭐⭐⭐⭐⭐ (5)</option>
+                <option value="4">⭐⭐⭐⭐ (4)</option>
+                <option value="3">⭐⭐⭐ (3)</option>
+                <option value="2">⭐⭐ (2)</option>
+                <option value="1">⭐ (1)</option>
+            </select>
+            <textarea name="komentar" placeholder="Tulis ulasanmu..." required></textarea>
+            <button type="submit">Kirim Ulasan</button>
+        </form>
+        {% else %}
+        <p style="color:#888;"><a href="/login" style="color:#ee4d2d;">Login</a> untuk memberikan ulasan.</p>
+        {% endif %}
+
+        {% for u in ulasan %}
+        <div class="kartu-ulasan">
+            <div class="ulasan-header">
+                <strong>{{ u.user.nama }}</strong>
+                <span>{{ '⭐' * u.bintang }}</span>
+            </div>
+            <p>{{ u.komentar }}</p>
+            <small style="color:#888;">{{ u.tanggal.strftime('%d %B %Y') }}</small>
+        </div>
+        {% endfor %}
+
+        {% if not ulasan %}
+        <p style="color:#888;">Belum ada ulasan untuk produk ini.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

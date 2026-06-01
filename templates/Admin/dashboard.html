@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h2>🛡️ Dashboard Admin</h2>
+
+    <!-- Statistik -->
+    <div class="profil-stats" style="grid-template-columns: repeat(4, 1fr); display:grid; gap:16px; margin-bottom:30px;">
+        <div class="stat-box">
+            <div class="stat-angka">{{ total_user }}</div>
+            <div class="stat-label">Total User</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-angka">{{ total_produk }}</div>
+            <div class="stat-label">Total Produk</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-angka">{{ total_order }}</div>
+            <div class="stat-label">Total Order</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-angka" style="font-size:20px;">Rp {{ "{:,}".format(total_pendapatan) }}</div>
+            <div class="stat-label">Total Pendapatan</div>
+        </div>
+    </div>
+
+    <!-- Menu Admin -->
+    <div style="display:flex; gap:12px; margin-bottom:30px; flex-wrap:wrap;">
+        <a href="/admin/produk" class="btn-keranjang" style="padding:10px 20px;">📦 Kelola Produk</a>
+        <a href="/admin/users" class="btn-keranjang" style="padding:10px 20px;">👥 Kelola User</a>
+        <a href="/admin/orders" class="btn-keranjang" style="padding:10px 20px;">🧾 Semua Order</a>
+    </div>
+
+    <!-- Order Terbaru -->
+    <h2 style="margin-bottom:16px;">🧾 Order Terbaru</h2>
+    {% for order in orders_terbaru %}
+    <div class="keranjang-item">
+        <div class="info" style="width:100%;">
+            <div style="display:flex; justify-content:space-between;">
+                <h3>Order #{{ order.id }} — {{ order.produk.nama }}</h3>
+                <span class="status-badge status-{{ order.status|lower|replace(' ', '-') }}">{{ order.status }}</span>
+            </div>
+            <div class="harga">Rp {{ "{:,}".format(order.total_harga) }}</div>
+            <div style="font-size:13px; color:#888;">{{ order.tanggal.strftime('%d %B %Y') }}</div>
+        </div>
+    </div>
+    {% endfor %}
+
+    <!-- Produk Terbaru -->
+    <h2 style="margin:30px 0 16px;">📦 Produk Terbaru</h2>
+    <div class="produk-grid">
+        {% for p in produk_terbaru %}
+        <div class="kartu">
+            <img src="{{ url_for('static', filename='uploads/' + p.foto) }}" alt="{{ p.nama }}">
+            <div class="kartu-info">
+                <h3>{{ p.nama }}</h3>
+                <div class="harga">Rp {{ "{:,}".format(p.harga) }}</div>
+                <div class="stok">Stok: {{ p.stok }}</div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

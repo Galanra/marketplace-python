@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="keranjang-container">
+    <h2 style="margin-bottom:20px; color:#ee4d2d;">🛒 Keranjang Belanja</h2>
+    {% for item in items %}
+    <div class="keranjang-item">
+        <div class="info">
+            <h3>Produk #{{ item.produk_id }}</h3>
+            <div class="harga">Jumlah: {{ item.jumlah }}</div>
+        </div>
+    </div>
+    {% endfor %}
+    {% if items %}
+    <a href="/checkout" class="btn-checkout">✅ Lanjut ke Checkout</a>
+    {% else %}
+    <p style="text-align:center; color:#888; margin-top:40px;">Keranjang masih kosong 😢</p>
+    <a href="/" style="display:block; text-align:center; margin-top:16px; color:#ee4d2d;">Mulai Belanja</a>
+    {% endif %}
+</div>
+{% endblock %}

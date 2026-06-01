@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <h2>📍 Alamat Pengiriman</h2>
+        <a href="/alamat/tambah" class="btn-keranjang" style="padding:10px 20px;">+ Tambah Alamat</a>
+    </div>
+    {% for a in alamat_list %}
+    <div class="keranjang-item" style="position:relative;">
+        {% if a.is_utama %}
+        <span style="position:absolute; top:12px; right:12px; background:#ee4d2d; color:white; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:700;">Utama</span>
+        {% endif %}
+        <div class="info">
+            <h3>{{ a.nama_penerima }} — {{ a.no_hp }}</h3>
+            <p style="color:#555; margin:4px 0;">{{ a.alamat_lengkap }}</p>
+            <p style="color:#888; font-size:13px;">{{ a.kota }}, {{ a.provinsi }} {{ a.kode_pos }}</p>
+            <a href="/alamat/hapus/{{ a.id }}"
+               class="btn-hapus"
+               style="display:inline-block; margin-top:8px; padding:4px 12px;"
+               onclick="return confirm('Hapus alamat ini?')">🗑️ Hapus</a>
+        </div>
+    </div>
+    {% endfor %}
+    {% if not alamat_list %}
+    <p style="text-align:center; color:#888; margin-top:40px;">Belum ada alamat. <a href="/alamat/tambah" style="color:#ee4d2d;">Tambah sekarang</a></p>
+    {% endif %}
+</div>
+{% endblock %}

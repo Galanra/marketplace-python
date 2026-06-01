@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="keranjang-container">
+    <h2 style="margin-bottom:20px; color:#ee4d2d;">📦 Riwayat Pesanan</h2>
+    {% for order in orders %}
+    <div class="keranjang-item" style="flex-direction:column; align-items:flex-start;">
+        <div style="display:flex; justify-content:space-between; width:100%; align-items:center;">
+            <div>
+                <h3>Order #{{ order.id }} — {{ order.produk.nama }}</h3>
+                <div class="harga">Rp {{ "{:,}".format(order.total_harga) }}</div>
+                {% if order.ongkir %}
+                <div style="font-size:13px; color:#888;">Ongkir: Rp {{ "{:,}".format(order.ongkir) }}</div>
+                {% endif %}
+                {% if order.alamat_pengiriman %}
+                <div style="font-size:13px; color:#888;">📍 {{ order.alamat_pengiriman }}</div>
+                {% endif %}
+                <div style="font-size:13px; color:#888;">{{ order.tanggal.strftime('%d %B %Y') }}</div>
+                <span class="status-badge status-{{ order.status|lower|replace(' ', '-') }}">
+                    {{ order.status }}
+                </span>
+            </div>
+            {% if order.status in ['Selesai', 'Dibatalkan'] %}
+            <a href="/order/hapus/{{ order.id }}"
+               class="btn-hapus"
+               style="padding:6px 14px; white-space:nowrap;"
+               onclick="return confirm('Hapus riwayat pesanan ini?')">
+                🗑️ Hapus
+            </a>
+            {% endif %}
+        </div>
+
+        <!-- Upload Bukti Bayar -->
+        {% if order.status == 'Menunggu Pembayaran' %}
+        <div style="margin-top:12px; width:100%;">
+            <p style="font-size:13px; color:#888; margin-bottom:8px;">📎 Upload bukti pembayaran:</p>
+            <form method="POST" action="/order/bukti/{{ order.id }}" enctype="multipart/form-data"
+                  style="display:flex; gap:8px; align-items:center;">
+                <input type="file" name="bukti" accept="image/*"
+                       style="font-size:13px; border:1px solid #ddd; padding:6px; border-radius:8px;">
+                <button type="submit"
+                        style="padding:8px 16px; background:#ee4d2d; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600;">
+                    Upload
+                </button>
+            </form>
+        </div>
+        {% endif %}
+
+        <!-- Bukti sudah diupload -->
+        {% if order.bukti_bayar %}
+        <div style="margin-top:10px;">
+            <p style="font-size:13px; color:#555;">✅ Bukti pembayaran sudah diupload</p>
+            <img src="{{ url_for('static', filename='uploads/' + order.bukti_bayar) }}"
+                 style="width:120px; border-radius:8px; margin-top:6px; border:1px solid #ddd;">
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+
+    {% if not orders %}
+    <p style="text-align:center; color:#888; margin-top:40px;">Belum ada pesanan 😢</p>
+    {% endif %}
+</div>
+{% endblock %}

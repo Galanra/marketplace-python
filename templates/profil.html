@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+
+    <!-- Info Akun -->
+    <div class="profil-header">
+        <div class="profil-avatar">
+            {% if current_user.foto_profil %}
+            <img src="{{ url_for('static', filename='uploads/' + current_user.foto_profil) }}"
+                 style="width:70px; height:70px; border-radius:50%; object-fit:cover;">
+            {% else %}
+            {{ current_user.nama[0].upper() }}
+            {% endif %}
+        </div>
+        <div class="profil-info">
+            <h2>{{ current_user.nama }}</h2>
+            <p>{{ current_user.email }}</p>
+            {% if current_user.no_hp %}
+            <p>📱 {{ current_user.no_hp }}</p>
+            {% endif %}
+            <div style="display:flex; gap:10px; margin-top:10px;">
+                <a href="/profil/edit" class="btn-edit" style="padding:6px 14px;">✏️ Edit Profil</a>
+                <a href="/profil/ganti-password" class="btn-hapus" style="padding:6px 14px;">🔒 Ganti Password</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistik -->
+    <div class="profil-stats">
+        <div class="stat-box">
+            <div class="stat-angka">{{ produk_saya|length }}</div>
+            <div class="stat-label">Produk Dijual</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-angka">{{ orders_saya|length }}</div>
+            <div class="stat-label">Total Pesanan</div>
+        </div>
+    </div>
+
+    <!-- Produk Saya -->
+    <h2 style="margin-bottom:16px;">📦 Produk Saya</h2>
+    {% if produk_saya %}
+    <div class="produk-grid">
+        {% for p in produk_saya %}
+        <div class="kartu">
+            <img src="{{ url_for('static', filename='uploads/' + p.foto) }}" alt="{{ p.nama }}">
+            <div class="kartu-info">
+                <h3>{{ p.nama }}</h3>
+                <div class="harga">Rp {{ "{:,}".format(p.harga) }}</div>
+                <div class="stok">Stok: {{ p.stok }}</div>
+                <div style="display:flex; gap:8px; margin-top:8px;">
+                    <a href="/produk/edit/{{ p.id }}" class="btn-edit">✏️ Edit</a>
+                    <a href="/produk/hapus/{{ p.id }}" class="btn-hapus" onclick="return confirm('Yakin hapus produk ini?')">🗑️ Hapus</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p style="color:#888;">Belum ada produk. <a href="/jual" style="color:#ee4d2d;">Upload sekarang</a></p>
+    {% endif %}
+
+    <!-- Riwayat Pesanan -->
+    <h2 style="margin:30px 0 16px;">🧾 Riwayat Pesanan</h2>
+    {% for order in orders_saya %}
+    <div class="keranjang-item">
+        <div class="info" style="width:100%;">
+            <div style="display:flex; justify-content:space-between;">
+                <h3>Order #{{ order.id }} — {{ order.produk.nama }}</h3>
+                <span class="status-badge status-{{ order.status|lower|replace(' ', '-') }}">{{ order.status }}</span>
+            </div>
+            <div class="harga">Rp {{ "{:,}".format(order.total_harga) }}</div>
+            <div style="font-size:13px; color:#888;">{{ order.tanggal.strftime('%d %B %Y') }}</div>
+        </div>
+    </div>
+    {% endfor %}
+    {% if not orders_saya %}
+    <p style="color:#888;">Belum ada pesanan.</p>
+    {% endif %}
+
+</div>
+{% endblock %}

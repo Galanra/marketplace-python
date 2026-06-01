@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h2>🧾 Semua Order</h2>
+    <p style="color:#888; margin-bottom:20px;">Total: {{ orders|length }} order</p>
+    {% for order in orders %}
+    <div class="keranjang-item">
+        <div class="info" style="width:100%;">
+            <div style="display:flex; justify-content:space-between;">
+                <h3>Order #{{ order.id }} — {{ order.produk.nama }}</h3>
+                <span class="status-badge status-{{ order.status|lower|replace(' ', '-') }}">{{ order.status }}</span>
+            </div>
+            <div class="harga">Rp {{ "{:,}".format(order.total_harga) }}</div>
+            <div style="font-size:13px; color:#888;">{{ order.tanggal.strftime('%d %B %Y') }}</div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

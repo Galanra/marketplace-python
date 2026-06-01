@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h2>🔔 Notifikasi</h2>
+    {% for n in notifs %}
+    <a href="{{ n.link }}" style="text-decoration:none; color:inherit;">
+        <div class="notif-item {% if not n.dibaca %}notif-baru{% endif %}">
+            <div class="notif-pesan">{{ n.pesan }}</div>
+            <div class="notif-waktu">{{ n.tanggal.strftime('%d %B %Y, %H:%M') }}</div>
+        </div>
+    </a>
+    {% endfor %}
+    {% if not notifs %}
+    <p style="text-align:center; color:#888; margin-top:40px;">Tidak ada notifikasi 🔕</p>
+    {% endif %}
+</div>
+{% endblock %}

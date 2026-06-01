@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="form-container">
+    <h2>✏️ Edit Produk</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="text" name="nama" value="{{ produk.nama }}" required>
+        <input type="number" name="harga" value="{{ produk.harga }}" required>
+        <input type="number" name="stok" value="{{ produk.stok }}" required>
+        <textarea name="deskripsi">{{ produk.deskripsi }}</textarea>
+        <select name="kategori" required>
+            {% for k in kategori_list %}
+            <option value="{{ k }}" {% if produk.kategori == k %}selected{% endif %}>{{ k }}</option>
+            {% endfor %}
+        </select>
+        <p style="font-size:13px; color:#888; margin-bottom:8px;">Kosongkan jika tidak ingin ganti foto</p>
+        <input type="file" name="foto" accept="image/*">
+        <button type="submit">💾 Simpan Perubahan</button>
+    </form>
+    <div class="link-bawah">
+        <a href="/profil">← Kembali ke Profil</a>
+    </div>
+</div>
+{% endblock %}

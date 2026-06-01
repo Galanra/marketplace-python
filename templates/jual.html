@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="form-container">
+    <h2>📦 Upload Produk</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="text" name="nama" placeholder="Nama produk" required>
+        <input type="number" name="harga" placeholder="Harga (Rp)" required>
+        <input type="number" name="stok" placeholder="Jumlah stok" required>
+        <textarea name="deskripsi" placeholder="Deskripsi produk"></textarea>
+        <select name="kategori" required>
+            <option value="">-- Pilih Kategori --</option>
+            {% for k in kategori_list %}
+            <option value="{{ k }}">{{ k }}</option>
+            {% endfor %}
+        </select>
+        <input type="file" name="foto" accept="image/*" required>
+        <button type="submit">Upload Produk</button>
+    </form>
+</div>
+{% endblock %}

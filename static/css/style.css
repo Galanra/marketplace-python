@@ -1,0 +1,562 @@
+/* ===== RESET & DASAR ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ===== NAVBAR ===== */
+nav {
+    background-color: #ee4d2d;
+    padding: 12px 40px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+nav a {
+    color: white;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+nav a:first-child {
+    font-size: 22px;
+    margin-right: auto;
+}
+
+nav a:hover {
+    opacity: 0.8;
+}
+
+/* ===== ALERT / NOTIFIKASI ===== */
+.alert {
+    background-color: #fff3cd;
+    border: 1px solid #ffc107;
+    color: #856404;
+    padding: 12px 40px;
+    text-align: center;
+    font-weight: 500;
+}
+
+/* ===== BANNER ===== */
+.banner {
+    background: linear-gradient(135deg, #ee4d2d, #ff7043);
+    color: white;
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.banner h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.banner p {
+    font-size: 18px;
+    opacity: 0.9;
+}
+
+/* ===== CONTAINER ===== */
+.container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.container h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #ee4d2d;
+    border-bottom: 2px solid #ee4d2d;
+    padding-bottom: 8px;
+}
+
+/* ===== GRID PRODUK ===== */
+.produk-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+/* ===== KARTU PRODUK ===== */
+.kartu {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.kartu:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+.kartu img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.kartu-info {
+    padding: 12px;
+}
+
+.kartu-info h3 {
+    font-size: 14px;
+    margin-bottom: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.kartu-info .harga {
+    color: #ee4d2d;
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.kartu-info .stok {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 10px;
+}
+
+.kartu-info .btn-keranjang {
+    display: block;
+    background-color: #ee4d2d;
+    color: white;
+    text-align: center;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.kartu-info .btn-keranjang:hover {
+    background-color: #d43f20;
+}
+
+/* ===== FORM (Login, Register, Jual) ===== */
+.form-container {
+    max-width: 450px;
+    margin: 50px auto;
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 24px;
+    color: #ee4d2d;
+    font-size: 24px;
+}
+
+.form-container input,
+.form-container textarea,
+.form-container select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: border 0.2s;
+}
+
+.form-container input:focus,
+.form-container textarea:focus {
+    border-color: #ee4d2d;
+}
+
+.form-container textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.form-container button {
+    width: 100%;
+    padding: 13px;
+    background-color: #ee4d2d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.form-container button:hover {
+    background-color: #d43f20;
+}
+
+.form-container .link-bawah {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 14px;
+    color: #666;
+}
+
+.form-container .link-bawah a {
+    color: #ee4d2d;
+    font-weight: 600;
+}
+
+/* ===== KERANJANG ===== */
+.keranjang-container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.keranjang-item {
+    background: white;
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.keranjang-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.keranjang-item .info {
+    flex: 1;
+}
+
+.keranjang-item .info h3 {
+    font-size: 15px;
+    margin-bottom: 4px;
+}
+
+.keranjang-item .info .harga {
+    color: #ee4d2d;
+    font-weight: 700;
+}
+
+.btn-checkout {
+    display: block;
+    background-color: #ee4d2d;
+    color: white;
+    text-align: center;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 20px;
+    transition: background 0.2s;
+}
+
+.btn-checkout:hover {
+    background-color: #d43f20;
+}
+/* ===== DETAIL PRODUK ===== */
+.detail-wrapper {
+    display: flex;
+    gap: 40px;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin-top: 20px;
+}
+
+.detail-foto img {
+    width: 350px;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.detail-info {
+    flex: 1;
+}
+
+.detail-info h1 {
+    font-size: 24px;
+    margin-bottom: 16px;
+}
+
+.detail-harga {
+    font-size: 28px;
+    color: #ee4d2d;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.detail-stok {
+    color: #888;
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+.detail-deskripsi {
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 24px;
+}
+/* ===== PROFIL ===== */
+.profil-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+}
+
+.profil-avatar {
+    width: 70px;
+    height: 70px;
+    background: #ee4d2d;
+    color: white;
+    font-size: 32px;
+    font-weight: 700;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profil-info h2 {
+    font-size: 22px;
+    margin-bottom: 4px;
+    border: none;
+    padding: 0;
+    color: #333;
+}
+
+.profil-info p {
+    color: #888;
+    font-size: 14px;
+}
+
+.profil-stats {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 30px;
+}
+
+.stat-box {
+    background: white;
+    padding: 20px 30px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    text-align: center;
+}
+
+.stat-angka {
+    font-size: 32px;
+    font-weight: 700;
+    color: #ee4d2d;
+}
+
+.stat-label {
+    font-size: 13px;
+    color: #888;
+    margin-top: 4px;
+}
+
+.btn-edit {
+    flex: 1;
+    background: #fff3cd;
+    color: #856404;
+    text-align: center;
+    padding: 6px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.btn-hapus {
+    flex: 1;
+    background: #f8d7da;
+    color: #842029;
+    text-align: center;
+    padding: 6px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+}
+/* ===== KATEGORI BAR ===== */
+.kategori-bar {
+    background: white;
+    padding: 12px 40px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.kategori-btn {
+    padding: 6px 16px;
+    border-radius: 20px;
+    background: #f5f5f5;
+    color: #333;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.kategori-btn:hover, .kategori-btn.aktif {
+    background: #ee4d2d;
+    color: white;
+}
+
+.badge-kategori {
+    background: #fff3cd;
+    color: #856404;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 8px;
+}
+
+/* ===== ULASAN ===== */
+.ulasan-section {
+    margin-top: 40px;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.ulasan-section h2 {
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ee4d2d;
+    padding-bottom: 8px;
+}
+
+.form-ulasan {
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-ulasan select,
+.form-ulasan textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.form-ulasan textarea {
+    height: 80px;
+    resize: vertical;
+}
+
+.form-ulasan button {
+    padding: 10px;
+    background: #ee4d2d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    width: fit-content;
+}
+
+.kartu-ulasan {
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 12px;
+}
+
+.ulasan-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+/* ===== STATUS BADGE ===== */
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.status-menunggu-pembayaran { background:#fff3cd; color:#856404; }
+.status-diproses { background:#cce5ff; color:#004085; }
+.status-dikirim { background:#d4edda; color:#155724; }
+.status-selesai { background:#d1ecf1; color:#0c5460; }
+.status-dibatalkan { background:#f8d7da; color:#842029; }
+
+/* ===== NOTIFIKASI ===== */
+.notif-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: red;
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+.notif-item {
+    background: white;
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border-left: 4px solid #ddd;
+    animation: fadeInUp 0.4s ease both;
+}
+
+.notif-baru {
+    border-left: 4px solid #ee4d2d;
+    background: #fff5f3;
+}
+
+.notif-pesan {
+    font-size: 15px;
+    margin-bottom: 6px;
+}
+
+.notif-waktu {
+    font-size: 12px;
+    color: #888;
+}

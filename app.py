@@ -596,8 +596,9 @@ def hapus_order(order_id):
     flash('Riwayat pesanan berhasil dihapus!')
     return redirect(url_for('riwayat'))
 
+with app.app_context():
+    os.makedirs('static/uploads', exist_ok=True)
+    db.create_all()
+
 if __name__ == '__main__':
-    with app.app_context():
-        os.makedirs('static/uploads', exist_ok=True)
-        db.create_all()
     app.run(debug=True)
